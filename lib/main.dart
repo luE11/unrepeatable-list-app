@@ -18,8 +18,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
+        fontFamily: 'Sans-serif',
       ),
       home: const MyHomePage(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -36,20 +38,20 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+    ThemeData appTheme = Theme.of(context);
+    ButtonStyle btnStyle = ElevatedButton.styleFrom(
+      foregroundColor: Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+      padding: const EdgeInsets.fromLTRB(13, 15, 13, 15),
+    );
+    ButtonStyle menuItemStyle = ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(appTheme.colorScheme.background),
+                      padding: const MaterialStatePropertyAll(EdgeInsets.fromLTRB(15, 15, 15, 15)),
+                    );
+
     return Scaffold(
       appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.background,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
+        backgroundColor: appTheme.colorScheme.background,
         title: Text(appTitle),
         shape: const Border(
           bottom: BorderSide(
@@ -57,13 +59,82 @@ class _MyHomePageState extends State<MyHomePage> {
             width: 3
           )
         ),
-        actions: const [ Placeholder() ],
+        actions: [ 
+          ElevatedButton(
+            onPressed: () {
+              // TODO: Add item to sqlite
+              print("Add item");
+            },
+            style: btnStyle.copyWith(
+              backgroundColor: const MaterialStatePropertyAll(Colors.blue),
+            ),
+            child: const Text('Add Item'),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 8),
+            child: ElevatedButton(
+              onPressed: () {
+                // TODO: Add tag to sqlite
+                print("Add tag");
+              },
+              style: btnStyle.copyWith(
+                backgroundColor: const MaterialStatePropertyAll(Colors.lightBlue),
+              ),
+              child: const Text('Add Tag'),
+            ),
+          ),
+          MenuBar(
+            style: const MenuStyle(
+              shadowColor: MaterialStatePropertyAll(Colors.transparent),
+              padding: MaterialStatePropertyAll(EdgeInsets.only(left: 0, right: 0)),
+            ),
+            children: [
+              SubmenuButton(
+                style: btnStyle.copyWith( 
+                  backgroundColor: MaterialStatePropertyAll(appTheme.colorScheme.background),
+                  foregroundColor: const MaterialStatePropertyAll(Colors.black),
+                ),
+                menuChildren: [ 
+                  MenuItemButton(
+                    onPressed: () {
+                      print("color");
+                    },
+                    style: menuItemStyle,
+                    child: const Text("Change primary \ncolor"),
+                  ),
+                  MenuItemButton(
+                    onPressed: () {
+                      print("to csv");
+                    },
+                    style: menuItemStyle,
+                    child: const Text("Export data to csv")
+                  ),
+                  MenuItemButton(
+                    onPressed: () {
+                      print("to pdf");
+                    },
+                    style: menuItemStyle,
+                    child: const Text("Export data to pdf")
+                  ),
+                  const Divider(height: 1,),
+                  MenuItemButton(
+                    onPressed: () {
+                      print("about");
+                    },
+                    style: menuItemStyle,
+                    child: const Text("About")
+                  ),
+                ],
+                trailingIcon: const Icon(Icons.keyboard_arrow_down),
+                child: const Text('Options')
+              ),
+            ],
+          ),
+         ]
         
       ),
       body: const Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Placeholder(),
+        child: Placeholder()
       ),
     );
   }
