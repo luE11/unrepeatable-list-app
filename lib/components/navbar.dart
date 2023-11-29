@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'uilogger.dart';
+import 'modals.dart';
 
 class AppNavBar extends StatelessWidget implements PreferredSizeWidget {
   const AppNavBar(this.appTheme, this.appTitle, this.btnStyle, this.menuItemStyle, {super.key});
@@ -34,8 +35,8 @@ class AppNavBar extends StatelessWidget implements PreferredSizeWidget {
             padding: const EdgeInsets.only(left: 8),
             child: ElevatedButton(
               onPressed: () {
-                // TODO: Add tag to sqlite
-                logInfo("Add tag");
+                showCreateTagModal(context, appTheme);
+                //createTag('pruebita');
               },
               style: btnStyle?.copyWith(
                 backgroundColor: const MaterialStatePropertyAll(Colors.lightBlue),

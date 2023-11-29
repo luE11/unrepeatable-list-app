@@ -16,11 +16,11 @@ initSqlite(){
     db.execute('''
       CREATE TABLE tags (
         id INTEGER NOT NULL PRIMARY KEY,
-        tag TEXT NOT NULL
+        tag TEXT NOT NULL UNIQUE
       );
       CREATE TABLE items (
         id INTEGER NOT NULL PRIMARY KEY,
-        concept TEXT NOT NULL,
+        concept TEXT NOT NULL UNIQUE,
         description TEXT NOT NULL,
         tag_id INTEGER,
         FOREIGN KEY(tag_id) REFERENCES tags(id)
@@ -29,5 +29,11 @@ initSqlite(){
   } catch (e) {
     log("Tables already created");
   }
+  db.dispose();
+}
+
+executeDatabaseOperation(String operation, [List<Object?> parameters = const []]){
+  final db = sqlite3.open( join('assets', 'sqlite.db'));
+  db.execute(operation, parameters); 
   db.dispose();
 }
