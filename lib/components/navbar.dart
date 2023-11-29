@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'uilogger.dart';
 
 class AppNavBar extends StatelessWidget implements PreferredSizeWidget {
   const AppNavBar(this.appTheme, this.appTitle, this.btnStyle, this.menuItemStyle, {super.key});
@@ -22,7 +23,7 @@ class AppNavBar extends StatelessWidget implements PreferredSizeWidget {
           ElevatedButton(
             onPressed: () {
               // TODO: Add item to sqlite
-              print("Add item");
+              logInfo("Add item");
             },
             style: btnStyle?.copyWith(
               backgroundColor: const MaterialStatePropertyAll(Colors.blue),
@@ -34,7 +35,7 @@ class AppNavBar extends StatelessWidget implements PreferredSizeWidget {
             child: ElevatedButton(
               onPressed: () {
                 // TODO: Add tag to sqlite
-                print("Add tag");
+                logInfo("Add tag");
               },
               style: btnStyle?.copyWith(
                 backgroundColor: const MaterialStatePropertyAll(Colors.lightBlue),
@@ -56,21 +57,21 @@ class AppNavBar extends StatelessWidget implements PreferredSizeWidget {
                 menuChildren: [ 
                   MenuItemButton(
                     onPressed: () {
-                      print("color");
+                      logInfo("color");
                     },
                     style: menuItemStyle,
                     child: const Text("Change primary \ncolor"),
                   ),
                   MenuItemButton(
                     onPressed: () {
-                      print("to csv");
+                      logInfo("to csv");
                     },
                     style: menuItemStyle,
                     child: const Text("Export data to csv")
                   ),
                   MenuItemButton(
                     onPressed: () {
-                      print("to pdf");
+                      logInfo("to pdf");
                     },
                     style: menuItemStyle,
                     child: const Text("Export data to pdf")
@@ -78,7 +79,7 @@ class AppNavBar extends StatelessWidget implements PreferredSizeWidget {
                   const Divider(height: 1,),
                   MenuItemButton(
                     onPressed: () {
-                      print("about");
+                      logInfo("about");
                     },
                     style: menuItemStyle,
                     child: const Text("About")

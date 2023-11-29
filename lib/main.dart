@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:window_size/window_size.dart';
 import 'components/navbar.dart';
+import 'dbinit.dart';
+import 'components/uilogger.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   setWindowTitle("Unrepeteable list app");
   runApp(const MyApp());
+  initSqlite();
 }
 
 class MyApp extends StatelessWidget {
@@ -23,6 +26,7 @@ class MyApp extends StatelessWidget {
       ),
       home: const MyHomePage(),
       debugShowCheckedModeBanner: false,
+      scaffoldMessengerKey: snackbarKey,
     );
   }
 }
