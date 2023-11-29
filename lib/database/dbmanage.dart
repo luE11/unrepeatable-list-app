@@ -2,10 +2,11 @@ import 'dart:developer';
 
 import 'package:sqlite3/sqlite3.dart';
 import 'package:path/path.dart';
-import 'utils/fileutils.dart' as fu;
+import '../utils/fileutils.dart' as fu;
+
+final String dbPath = join('assets', 'sqlite.db');
 
 initSqlite(){
-  String dbPath = join('assets', 'sqlite.db');
   if(!fu.checkFileExists(dbPath)){
     fu.copyFile(join('assets', 'empty.db'), dbPath);
     log("db copied");

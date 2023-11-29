@@ -84,6 +84,15 @@ class AppNavBar extends StatelessWidget implements PreferredSizeWidget {
                     style: menuItemStyle,
                     child: const Text("About")
                   ),
+                  MenuItemButton(
+                    onPressed: () {
+                      logInfo("restore data");
+                    },
+                    style: menuItemStyle?.copyWith(
+                      backgroundColor: const MaterialStatePropertyAll(Color.fromARGB(255, 247, 156, 150)),
+                    ),
+                    child: const Text("Restore data")
+                  ),
                 ],
                 trailingIcon: const Icon(Icons.keyboard_arrow_down),
                 child: const Text('Options')

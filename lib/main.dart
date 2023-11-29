@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:window_size/window_size.dart';
 import 'components/navbar.dart';
-import 'dbinit.dart';
+import 'database/dbmanage.dart';
 import 'components/uilogger.dart';
 
 void main() {
