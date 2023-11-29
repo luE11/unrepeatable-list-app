@@ -65,6 +65,13 @@ class AppNavBar extends StatelessWidget implements PreferredSizeWidget {
                   ),
                   MenuItemButton(
                     onPressed: () {
+                      logInfo("delete tag");
+                    },
+                    style: menuItemStyle,
+                    child: const Text("Delete tag")
+                  ),
+                  MenuItemButton(
+                    onPressed: () {
                       logInfo("to csv");
                     },
                     style: menuItemStyle,
