@@ -6,7 +6,7 @@ import '../utils/fileutils.dart' as fu;
 
 final String dbPath = join('assets', 'sqlite.db');
 
-initSqlite(){
+void initSqlite(){
   if(!fu.checkFileExists(dbPath)){
     fu.copyFile(join('assets', 'empty.db'), dbPath);
     log("db copied");
@@ -32,8 +32,15 @@ initSqlite(){
   db.dispose();
 }
 
-executeDatabaseOperation(String operation, [List<Object?> parameters = const []]){
+void executeDatabaseOperation(String operation, [List<Object?> parameters = const []]){
   final db = sqlite3.open( join('assets', 'sqlite.db'));
   db.execute(operation, parameters); 
   db.dispose();
+}
+
+ResultSet executeQuery(String query, [List<Object?> parameters = const []]){
+  final db = sqlite3.open( join('assets', 'sqlite.db'));
+  ResultSet rows = db.select(query, parameters);
+  db.dispose();
+  return rows;
 }

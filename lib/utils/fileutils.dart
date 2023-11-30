@@ -1,10 +1,10 @@
 import 'dart:io';
 
-checkFileExists(String filePath) {
+bool checkFileExists(String filePath) {
   return File(filePath).existsSync();
 }
 
-copyFile(String sourcePath, String copyPath){
+void copyFile(String sourcePath, String copyPath){
   File sourceFile = File(sourcePath);
   sourceFile.copySync(copyPath);
 }

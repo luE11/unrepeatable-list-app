@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'uilogger.dart';
-import 'modals.dart';
+import 'modal_manager.dart';
 
 class AppNavBar extends StatelessWidget implements PreferredSizeWidget {
   const AppNavBar(this.appTheme, this.appTitle, this.btnStyle, this.menuItemStyle, {super.key});
@@ -65,7 +65,7 @@ class AppNavBar extends StatelessWidget implements PreferredSizeWidget {
                   ),
                   MenuItemButton(
                     onPressed: () {
-                      logInfo("delete tag");
+                      showDeleteTagModal(context, appTheme);
                     },
                     style: menuItemStyle,
                     child: const Text("Delete tag")

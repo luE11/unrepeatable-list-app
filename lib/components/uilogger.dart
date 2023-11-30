@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 final GlobalKey<ScaffoldMessengerState> snackbarKey =
     GlobalKey<ScaffoldMessengerState>();
 
-logInfo(data){
+void logInfo(data){
   snackbarKey.currentState?.showSnackBar(
           SnackBar(
             content: Text(data),

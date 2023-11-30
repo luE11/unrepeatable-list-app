@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import '../database/operations/tag_manager.dart' show createTag;
+import '../../database/operations/tag_manager.dart' show createTag;
 
-showCreateTagModal(BuildContext context, ThemeData? themeData){
+class DeleteTagModal extends StatelessWidget {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
+  final ThemeData? themeData;
   final tagController = TextEditingController();
 
-  showModalBottomSheet<void>(
-    context: context,
-    builder: (BuildContext context) {
-      return Container(
+  DeleteTagModal({super.key, this.themeData});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
         height: 300,
         padding: const EdgeInsets.all(50),
         child: Form(
@@ -18,7 +19,7 @@ showCreateTagModal(BuildContext context, ThemeData? themeData){
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Text(
-                'Creating a new tag',
+                'Deleting a tag',
                 style: themeData?.textTheme.headlineLarge?.copyWith(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
@@ -26,7 +27,7 @@ showCreateTagModal(BuildContext context, ThemeData? themeData){
               ),
               TextFormField(
                 decoration: const InputDecoration(
-                  hintText: 'Enter new tag name',
+                  hintText: 'Enter a tag name',
                   alignLabelWithHint: true
                 ),
                 maxLength: 30,
@@ -56,6 +57,5 @@ showCreateTagModal(BuildContext context, ThemeData? themeData){
           ),
         ),
       );
-    },
-  );
+  }
 }
