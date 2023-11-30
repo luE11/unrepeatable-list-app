@@ -35,7 +35,7 @@ class AppNavBar extends StatelessWidget implements PreferredSizeWidget {
             padding: const EdgeInsets.only(left: 8),
             child: ElevatedButton(
               onPressed: () {
-                showCreateTagModal(context, appTheme);
+                showCreateTagModal(context, appTheme, btnStyle);
                 //createTag('pruebita');
               },
               style: btnStyle?.copyWith(
@@ -65,7 +65,7 @@ class AppNavBar extends StatelessWidget implements PreferredSizeWidget {
                   ),
                   MenuItemButton(
                     onPressed: () {
-                      showDeleteTagModal(context, appTheme);
+                      showDeleteTagModal(context, appTheme, btnStyle);
                     },
                     style: menuItemStyle,
                     child: const Text("Delete tag")

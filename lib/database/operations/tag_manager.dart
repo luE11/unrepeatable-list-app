@@ -11,7 +11,7 @@ void createTag(String tag){
     executeDatabaseOperation(operation, [tag]);
     logInfo('Tag "$tag" added');
   } catch (e) {
-    logInfo('Could not create tag "$tag". Already exists?');
+    logError('Could not create tag "$tag". Already exists?');
   }
 }
 
@@ -26,6 +26,6 @@ void deleteTagById(int id){
     executeDatabaseOperation(operation, [id]);
     logInfo('Tag deleted succesfully');
   } catch (e) {
-    logInfo('Could not delete the tag');
+    logError('Could not delete the tag');
   }
 }

@@ -1,17 +1,48 @@
 import 'package:flutter/material.dart';
-import '../../database/operations/tag_manager.dart' show createTag;
+import '../../database/model/tag.model.dart';
+import '../../services/tag_service.dart' show getAllTags, deleteTagById;
 
 class DeleteTagModal extends StatelessWidget {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final ThemeData? themeData;
+  final ButtonStyle? btnStyle;
   final tagController = TextEditingController();
 
-  DeleteTagModal({super.key, this.themeData});
+  DeleteTagModal({super.key, this.themeData, this.btnStyle});
 
   @override
   Widget build(BuildContext context) {
+    List<Tag> list = getAllTags();
+
+    if(list.isEmpty){
+      return Container(
+        height: 200,
+        padding: const EdgeInsets.all(50),
+        child: Column(
+          children: [
+            Text(
+              'Tags not found',
+              style: themeData?.textTheme.headlineLarge?.copyWith(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context),
+              style: btnStyle?.copyWith(
+                backgroundColor: MaterialStatePropertyAll(themeData?.colorScheme.primary),
+              ),
+              child: const Text('Close'))
+          ],
+        ),
+      );
+    }
+
+    Tag selected = list.first;
+
     return Container(
         height: 300,
+        width: 500,
         padding: const EdgeInsets.all(50),
         child: Form(
           key: formKey,
@@ -19,38 +50,33 @@ class DeleteTagModal extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Text(
-                'Deleting a tag',
+                'Deleting tag',
                 style: themeData?.textTheme.headlineLarge?.copyWith(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              TextFormField(
-                decoration: const InputDecoration(
-                  hintText: 'Enter a tag name',
-                  alignLabelWithHint: true
-                ),
-                maxLength: 30,
-                autofocus: true,
-                textAlign: TextAlign.center,
-                validator: (String? value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
+              const SizedBox(height: 10),
+              DropdownMenu<Tag>(
+                initialSelection: list.first,
+                onSelected: (Tag? changed) { 
+                  selected = changed!;
                 },
-                controller: tagController,
+                dropdownMenuEntries: list.map<DropdownMenuEntry<Tag>>((Tag tag) {
+                  return DropdownMenuEntry<Tag>(value: tag, label: tag.tag);
+                }).toList(),
               ),
+              const SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: ElevatedButton(
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
-                      createTag(tagController.text);
+                      deleteTagById(selected.id);
                       Navigator.pop(context);
                     }
                   },
-                  child: const Text('Submit'),
+                  child: const Text('Delete selection'),
                 ),
               ),
             ],

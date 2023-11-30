@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import '../../database/operations/tag_manager.dart' show createTag;
+import '../../services/tag_service.dart' show createTag;
 
 class CreateTagModal extends StatelessWidget {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final ThemeData? themeData;
+  final ButtonStyle? btnStyle;
   final tagController = TextEditingController();
 
-  CreateTagModal({super.key, this.themeData});
+  CreateTagModal({super.key, this.themeData, this.btnStyle});
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +51,10 @@ class CreateTagModal extends StatelessWidget {
                       Navigator.pop(context);
                     }
                   },
-                  child: const Text('Submit'),
+                  style: btnStyle?.copyWith(
+                    backgroundColor: MaterialStatePropertyAll(themeData?.colorScheme.primary),
+                  ),
+                  child: const Text('Add'),
                 ),
               ),
             ],
