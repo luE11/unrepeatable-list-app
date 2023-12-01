@@ -25,6 +25,7 @@ class AppNavBar extends StatelessWidget implements PreferredSizeWidget {
             onPressed: () {
               // TODO: Add item to sqlite
               logInfo("Add item");
+              showCreateItemModal(context, appTheme, btnStyle);
             },
             style: btnStyle?.copyWith(
               backgroundColor: const MaterialStatePropertyAll(Colors.blue),
