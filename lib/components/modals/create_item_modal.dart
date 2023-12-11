@@ -14,6 +14,7 @@ class CreateItemModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Tag> tags = getAllTags();
+    TextEditingController tagController = TextEditingController();
 
     Item model = Item('', '');
     Tag? itemTag;
@@ -48,6 +49,9 @@ class CreateItemModal extends StatelessWidget {
                   }
                   return null;
                 },
+                onChanged: (String? value) {
+                  model.concept = value!;
+                },
               ),
               TextFormField(
                 decoration: const InputDecoration(
@@ -64,15 +68,34 @@ class CreateItemModal extends StatelessWidget {
                   }
                   return null;
                 },
-              ),
-              DropdownMenu<Tag>(
-                label: Text('Select a tag'),
-                onSelected: (Tag? changed) { 
-                  itemTag = changed!;
+                onChanged: (String? value) {
+                  model.description = value!;
                 },
-                dropdownMenuEntries: tags.map<DropdownMenuEntry<Tag>>((Tag tag) {
-                  return DropdownMenuEntry<Tag>(value: tag, label: tag.tag);
-                }).toList(),
+              ),
+              Row(
+                children: [
+                  DropdownMenu<Tag>(
+                    label: const Text('Select a tag'),
+                    onSelected: (Tag? changed) { 
+                      model.tag = changed;
+                    },
+                    controller: tagController,
+                    hintText: 'Type to search',
+                    dropdownMenuEntries: tags.map<DropdownMenuEntry<Tag>>((Tag tag) {
+                      return DropdownMenuEntry<Tag>(value: tag, label: tag.tag);
+                    }).toList(),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      model.tag = null;
+                      tagController.clear();
+                    },
+                    style: btnStyle?.copyWith(
+                      backgroundColor: MaterialStatePropertyAll(themeData?.colorScheme.primary),
+                    ),
+                    child: const Text('Clear tag'),
+                  ),
+                ],
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
