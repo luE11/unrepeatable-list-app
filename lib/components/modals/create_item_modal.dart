@@ -17,7 +17,6 @@ class CreateItemModal extends StatelessWidget {
     TextEditingController tagController = TextEditingController();
 
     Item model = Item('', '');
-    Tag? itemTag;
 
     return Container(
       padding: const EdgeInsets.all(50),
@@ -35,10 +34,13 @@ class CreateItemModal extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+              const SizedBox(height: 20,),
               TextFormField(
                 decoration: const InputDecoration(
                   hintText: 'Enter new item concept',
-                  alignLabelWithHint: true
+                  alignLabelWithHint: true,
+                  labelText: 'Concept',
+                  focusedBorder: OutlineInputBorder(),
                 ),
                 maxLength: 30,
                 autofocus: true,
@@ -56,7 +58,9 @@ class CreateItemModal extends StatelessWidget {
               TextFormField(
                 decoration: const InputDecoration(
                   hintText: 'Enter concept description',
-                  alignLabelWithHint: true
+                  alignLabelWithHint: true,
+                  labelText: 'Concept description',
+                  focusedBorder: OutlineInputBorder(),
                 ),
                 maxLength: 200,
                 autofocus: true,
@@ -73,6 +77,7 @@ class CreateItemModal extends StatelessWidget {
                 },
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   DropdownMenu<Tag>(
                     label: const Text('Select a tag'),
@@ -85,13 +90,15 @@ class CreateItemModal extends StatelessWidget {
                       return DropdownMenuEntry<Tag>(value: tag, label: tag.tag);
                     }).toList(),
                   ),
+                  const SizedBox(width: 20),
                   ElevatedButton(
                     onPressed: () {
                       model.tag = null;
                       tagController.clear();
                     },
                     style: btnStyle?.copyWith(
-                      backgroundColor: MaterialStatePropertyAll(themeData?.colorScheme.primary),
+                      backgroundColor: MaterialStatePropertyAll(themeData?.colorScheme.error),
+                      padding: const MaterialStatePropertyAll(EdgeInsets.fromLTRB(20, 15, 20, 15)),
                     ),
                     child: const Text('Clear tag'),
                   ),
@@ -102,7 +109,7 @@ class CreateItemModal extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
-                      //createTag(tagController.text);
+                      createItem(model);
                       Navigator.pop(context);
                     }
                   },

@@ -6,10 +6,10 @@ void createItem(Item item){
   String operation = '';
   try {
     if(item.tag!=null){
-      operation = 'INSERT INTO items (concept, description, tag_id) VALUES (?)';
+      operation = 'INSERT INTO items (concept, description, tag_id) VALUES (?,?,?)';
       executeDatabaseOperation(operation, [item.concept, item.description, item.tag!.id]);
     }else {
-      operation = 'INSERT INTO items (concept, description) VALUES (?)';
+      operation = 'INSERT INTO items (concept, description) VALUES (?,?)';
       executeDatabaseOperation(operation, [item.concept, item.description]);
     }
     logInfo('Concept "${item.concept}" added');
