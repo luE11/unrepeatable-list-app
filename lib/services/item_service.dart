@@ -8,14 +8,17 @@ void createItem(Item item){
   manager.createItem(item);
 }
 
-List<Item> getAllTags(){
+List<Item> getAllItems(){
   ResultSet rows = manager.fetchAllItems();
+  print(rows.length);
   Iterator<Row> rI = rows.iterator;
   return List<Item>.generate(rows.length, 
     (index) {
       rI.moveNext();
       Row current = rI.current;
-      Tag tag = Tag(current['t_id'], current['tag']);
+      Tag? tag = current['t_id']==null
+                ? null
+                : Tag(current['t_id'], current['tag']);
       return Item.full(current['id'], current['concept'], current['description'], tag);
     });
 }

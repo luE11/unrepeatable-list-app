@@ -6,10 +6,11 @@ import '../../services/item_service.dart' show createItem;
 
 class CreateItemModal extends StatelessWidget {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final ThemeData? themeData;
-  final ButtonStyle? btnStyle;
+  final ThemeData themeData;
+  final ButtonStyle btnStyle;
+  final Function onCreate;
 
-  CreateItemModal({super.key, this.themeData, this.btnStyle});
+  CreateItemModal({super.key, required this.themeData, required this.btnStyle, required this.onCreate});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class CreateItemModal extends StatelessWidget {
             children: <Widget>[
               Text(
                 'Creating a new item',
-                style: themeData?.textTheme.headlineLarge?.copyWith(
+                style: themeData.textTheme.headlineLarge?.copyWith(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                 ),
@@ -76,8 +77,9 @@ class CreateItemModal extends StatelessWidget {
                   model.description = value!;
                 },
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                alignment: WrapAlignment.center,
                 children: [
                   DropdownMenu<Tag>(
                     label: const Text('Select a tag'),
@@ -96,8 +98,8 @@ class CreateItemModal extends StatelessWidget {
                       model.tag = null;
                       tagController.clear();
                     },
-                    style: btnStyle?.copyWith(
-                      backgroundColor: MaterialStatePropertyAll(themeData?.colorScheme.error),
+                    style: btnStyle.copyWith(
+                      backgroundColor: MaterialStatePropertyAll(themeData.colorScheme.error),
                       padding: const MaterialStatePropertyAll(EdgeInsets.fromLTRB(20, 15, 20, 15)),
                     ),
                     child: const Text('Clear tag'),
@@ -110,11 +112,12 @@ class CreateItemModal extends StatelessWidget {
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       createItem(model);
+                      onCreate();
                       Navigator.pop(context);
                     }
                   },
-                  style: btnStyle?.copyWith(
-                    backgroundColor: MaterialStatePropertyAll(themeData?.colorScheme.primary),
+                  style: btnStyle.copyWith(
+                    backgroundColor: MaterialStatePropertyAll(themeData.colorScheme.primary),
                   ),
                   child: const Text('Add'),
                 ),

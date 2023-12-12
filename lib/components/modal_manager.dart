@@ -22,6 +22,6 @@ void showDeleteTagModal(BuildContext context, ThemeData? themeData, ButtonStyle?
   showModal(context, DeleteTagModal(themeData: themeData, btnStyle: btnStyle));
 }
 
-void showCreateItemModal(BuildContext context, ThemeData? themeData, ButtonStyle? btnStyle){
-  showModal(context, CreateItemModal(themeData: themeData, btnStyle: btnStyle));
+void showCreateItemModal(BuildContext context, ThemeData themeData, ButtonStyle btnStyle, Function onCreate){
+  showModal(context, CreateItemModal(themeData: themeData, btnStyle: btnStyle, onCreate: onCreate));
 }

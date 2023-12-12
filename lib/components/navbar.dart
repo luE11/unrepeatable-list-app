@@ -3,11 +3,13 @@ import 'uilogger.dart';
 import 'modal_manager.dart';
 
 class AppNavBar extends StatelessWidget implements PreferredSizeWidget {
-  const AppNavBar(this.appTheme, this.appTitle, this.btnStyle, this.menuItemStyle, {super.key});
+  const AppNavBar(this.appTheme, this.appTitle, this.btnStyle, this.menuItemStyle, this.updateItemsList, {super.key});
   final ThemeData? appTheme;
   final String? appTitle;
   final ButtonStyle? btnStyle;
   final ButtonStyle? menuItemStyle;
+  final Function updateItemsList;
+
   
   @override
   Widget build(BuildContext context) {
@@ -23,9 +25,7 @@ class AppNavBar extends StatelessWidget implements PreferredSizeWidget {
         actions: [ 
           ElevatedButton(
             onPressed: () {
-              // TODO: Add item to sqlite
-              logInfo("Add item");
-              showCreateItemModal(context, appTheme, btnStyle);
+              showCreateItemModal(context, appTheme!, btnStyle!, updateItemsList);
             },
             style: btnStyle?.copyWith(
               backgroundColor: const MaterialStatePropertyAll(Colors.blue),

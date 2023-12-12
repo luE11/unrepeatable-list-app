@@ -22,9 +22,10 @@ void createItem(Item item){
 
 ResultSet fetchAllItems(){
   String query = '''
-    SELECT id, concept, description, t.id t_id, t.tag
-      FROM items i, tags t
-      WHERE i.tag_id=t.id;
+    SELECT i.id, concept, description, t.id t_id, t.tag
+      FROM items i
+      LEFT JOIN tags t
+      ON i.tag_id=t.id;
   ''';
   return executeQuery(query);
 }

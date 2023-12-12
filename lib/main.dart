@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:unrepeatable_list_app/components/item_list.dart';
 import 'package:window_size/window_size.dart';
 import 'components/navbar.dart';
 import 'database/dbmanage.dart';
@@ -54,16 +55,21 @@ class _MyHomePageState extends State<MyHomePage> {
                       padding: const MaterialStatePropertyAll(EdgeInsets.fromLTRB(15, 15, 15, 15)),
                     );
 
+    ItemList itemList = ItemList(
+        appTheme,
+        btnStyle,
+        menuItemStyle
+    );
+
     return Scaffold(
       appBar: AppNavBar(
         appTheme,
         appTitle,
         btnStyle,
-        menuItemStyle
+        menuItemStyle,
+        () => { itemList.refreshList() },
       ),
-      body: const Center(
-        child: Placeholder()
-      ),
+      body: itemList,
     );
   }
 }
