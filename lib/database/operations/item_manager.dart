@@ -1,3 +1,5 @@
+import 'package:sqlite3/sqlite3.dart';
+
 import '../dbmanage.dart';
 import '../../components/uilogger.dart';
 import '../model/item.model.dart';
@@ -16,4 +18,13 @@ void createItem(Item item){
   } catch (e) {
     logError('Could not create concept "${item.concept}". Already exists?');
   }
+}
+
+ResultSet fetchAllItems(){
+  String query = '''
+    SELECT id, concept, description, t.id t_id, t.tag
+      FROM items i, tags t
+      WHERE i.tag_id=t.id;
+  ''';
+  return executeQuery(query);
 }

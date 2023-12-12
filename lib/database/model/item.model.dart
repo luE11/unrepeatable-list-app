@@ -9,6 +9,7 @@ class Item {
   Tag? _tag;
   
   Item(this._concept, this._description);
+  Item.full(this._id, this._concept, this._description, this._tag);
 
   int? get id => _id;
   String get concept => _concept;
