@@ -5,6 +5,56 @@ import 'package:eventify/eventify.dart';
 
 final EventEmitter emitter = new EventEmitter();
 
+class ItemDataSource extends DataTableSource {
+  List<Item> items;
+
+  ItemDataSource(this.items);
+
+  setData(List<Item> items){
+    this.items = items;
+    notifyListeners();
+  }
+
+  @override
+  DataRow? getRow(int index) {
+    Item current = items.elementAt(index);
+    return DataRow.byIndex(
+      index: index,
+      onSelectChanged: (bool? selected) {
+        if(selected!){
+          print('selected ${current.concept}');
+        }
+      },
+      cells: <DataCell> [
+        DataCell(Text(current.concept)),
+        DataCell(
+          Text(
+            current.description.length <= 50
+              ? current.description
+              : '${current.description.substring(0, 50).trim()}...',
+          )
+        ),
+        DataCell(
+          Text(
+            current.tag != null
+              ? current.tag!.tag
+              : ''
+          )
+        ),
+      ],
+    );
+  }
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get rowCount => items.length;
+
+  @override
+  int get selectedRowCount => 0;
+
+}
 
 class ItemList extends StatefulWidget {
   const ItemList(this.appTheme, this.btnStyle, this.menuItemStyle, {super.key});
@@ -23,122 +73,69 @@ class ItemList extends StatefulWidget {
 
 class _ItemListState extends State<ItemList> {
   final List<String> headers = List.from(['Concepts', 'Description', 'Tag']);
-  List<Item> _items = getAllItems();
+  List<Item> items = getAllItems();
+  late ItemDataSource dataSource = ItemDataSource(items);
 
   @override
   void initState() {
     super.initState();
     emitter.on('refreshList', null, (event, eventContext) {
       setState(() {
-        _items = getAllItems();
+        items = getAllItems();
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Center(
-      child: SingleChildScrollView(
-        child: Column(
-          children: <Widget> [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 10, left: 30),
-                child: Row(
-                  children: [
-                    Text(
-                      '${_items.length} Items recorded',
-                      textAlign: TextAlign.left,
-                      style: widget.appTheme!.textTheme.headlineLarge?.copyWith(
-                        fontSize: 28,
+      child: Column(
+        children: <Widget> [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 10, bottom: 10, left: 30),
+              child: Row(
+                children: [
+                  Text(
+                    '${items.length} Items recorded',
+                    textAlign: TextAlign.left,
+                    style: widget.appTheme!.textTheme.headlineLarge?.copyWith(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 30, right: 30),
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  width: 0,
+                ),
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
+              ),
+              child: PaginatedDataTable(
+                columns: headers.map<DataColumn>((String header) {
+                  return DataColumn(
+                    label: Text(
+                      header,
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ],
-                ),
+                  );
+                }).toList(),
+                source: dataSource,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 30, right: 30),
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 0,
-                  ),
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                ),
-                child: Table(
-                  defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                  border: TableBorder.symmetric(
-                    inside: const BorderSide(width: 0.4, color: Colors.black),
-                  ),
-                  columnWidths: const {
-                    0: FlexColumnWidth(1.6),
-                    1: FlexColumnWidth(4),
-                    2: FlexColumnWidth(1.6),
-                  },
-                  children: [
-                    TableRow(
-                      decoration: BoxDecoration(
-                        color: Colors.blue[100],
-                        border: Border.all(
-                          width: 1,
-                        ),
-                        borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(10),
-                            topRight: Radius.circular(10)),
-                      ),
-                      children: headers.map<TableCell>((String header) {
-                        return TableCell(
-                          verticalAlignment: TableCellVerticalAlignment.middle,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              header,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          )
-                        );
-                      }).toList()
-                    ),
-                    ...(_items.map<TableRow>((Item item) {
-                        return TableRow(
-                          children: [
-                            TableCell(
-                              verticalAlignment: TableCellVerticalAlignment.middle,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(item.concept),
-                              ),
-                            ),
-                            TableCell(
-                              verticalAlignment: TableCellVerticalAlignment.middle,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(item.description),
-                              ),
-                            ),
-                            TableCell(
-                              verticalAlignment: TableCellVerticalAlignment.middle,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  item.tag!=null ? item.tag!.tag : '',
-                                ),
-                              ),
-                            ),
-                          ]
-                        );
-                    }).toList()),
-                  ],
-                ),
-              ),
-            ),
-          ]
           ),
+        ]
       ),
     );
   }
