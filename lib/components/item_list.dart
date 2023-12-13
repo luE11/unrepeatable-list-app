@@ -22,7 +22,7 @@ class ItemList extends StatefulWidget {
 }
 
 class _ItemListState extends State<ItemList> {
-  final List<String> headers = List.from(['concepts', 'description', 'tag']);
+  final List<String> headers = List.from(['Concepts', 'Description', 'Tag']);
   List<Item> _items = getAllItems();
 
   @override
@@ -38,47 +38,108 @@ class _ItemListState extends State<ItemList> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        children: <Widget> [
-          Padding(
-            padding: const EdgeInsets.only(top: 10, bottom: 10),
-            child: Text(
-              'Items ${_items.length}',
-              style: widget.appTheme!.textTheme.headlineLarge?.copyWith(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
+      child: SingleChildScrollView(
+        child: Column(
+          children: <Widget> [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 10, bottom: 10, left: 30),
+                child: Row(
+                  children: [
+                    Text(
+                      '${_items.length} Items recorded',
+                      textAlign: TextAlign.left,
+                      style: widget.appTheme!.textTheme.headlineLarge?.copyWith(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          Table(
-            border: TableBorder.all(),
-            children: [
-              TableRow(
-                children: headers.map<TableCell>((String header) {
-                  return TableCell(child: Text(header));
-                }).toList()
-              ),
-              ...(_items.map<TableRow>((Item item) {
-                  return TableRow(
-                    children: [
-                      TableCell(
-                        child: Text(item.concept),
-                      ),
-                      TableCell(
-                        child: Text(item.description),
-                      ),
-                      TableCell(
-                        child: Text(
-                          item.tag!=null ? item.tag!.tag : '',
+            Padding(
+              padding: const EdgeInsets.only(left: 30, right: 30),
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    width: 0,
+                  ),
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                ),
+                child: Table(
+                  defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                  border: TableBorder.symmetric(
+                    inside: const BorderSide(width: 0.4, color: Colors.black),
+                  ),
+                  columnWidths: const {
+                    0: FlexColumnWidth(1.6),
+                    1: FlexColumnWidth(4),
+                    2: FlexColumnWidth(1.6),
+                  },
+                  children: [
+                    TableRow(
+                      decoration: BoxDecoration(
+                        color: Colors.blue[100],
+                        border: Border.all(
+                          width: 1,
                         ),
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10)),
                       ),
-                    ]
-                  );
-              }).toList()),
-            ],
+                      children: headers.map<TableCell>((String header) {
+                        return TableCell(
+                          verticalAlignment: TableCellVerticalAlignment.middle,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              header,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          )
+                        );
+                      }).toList()
+                    ),
+                    ...(_items.map<TableRow>((Item item) {
+                        return TableRow(
+                          children: [
+                            TableCell(
+                              verticalAlignment: TableCellVerticalAlignment.middle,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(item.concept),
+                              ),
+                            ),
+                            TableCell(
+                              verticalAlignment: TableCellVerticalAlignment.middle,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(item.description),
+                              ),
+                            ),
+                            TableCell(
+                              verticalAlignment: TableCellVerticalAlignment.middle,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  item.tag!=null ? item.tag!.tag : '',
+                                ),
+                              ),
+                            ),
+                          ]
+                        );
+                    }).toList()),
+                  ],
+                ),
+              ),
+            ),
+          ]
           ),
-        ]
-        ),
+      ),
     );
   }
   
