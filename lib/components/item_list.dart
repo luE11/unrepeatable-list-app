@@ -2,17 +2,32 @@ import 'package:flutter/material.dart';
 import '../database/model/item.model.dart';
 import '../services/item_service.dart';
 import 'package:eventify/eventify.dart';
+import './modal_manager.dart' show showEditItemModal;
 
 final EventEmitter emitter = new EventEmitter();
 
 class ItemDataSource extends DataTableSource {
   List<Item> items;
+  ThemeData? appTheme;
+  ButtonStyle? btnStyle;
+  ButtonStyle? menuItemStyle;
+  BuildContext? context;
 
   ItemDataSource(this.items);
 
   setData(List<Item> items){
     this.items = items;
     notifyListeners();
+  }
+
+  setStyles(ThemeData appTheme, ButtonStyle btnStyle, ButtonStyle menuItemStyle){
+    this.appTheme = appTheme;
+    this.btnStyle = btnStyle;
+    this.menuItemStyle = menuItemStyle;
+  }
+
+  setContext(BuildContext context){
+    this.context = context;
   }
 
   @override
@@ -22,7 +37,16 @@ class ItemDataSource extends DataTableSource {
       index: index,
       onSelectChanged: (bool? selected) {
         if(selected!){
-          print('selected ${current.concept}');
+          showEditItemModal(
+            context!,
+            appTheme!,
+            btnStyle!,
+            () {
+              items = getAllItems();
+              notifyListeners();
+            },
+            current.id!
+          );
         }
       },
       cells: <DataCell> [
@@ -79,16 +103,18 @@ class _ItemListState extends State<ItemList> {
   @override
   void initState() {
     super.initState();
+    dataSource.setStyles(widget.appTheme!, widget.btnStyle!, widget.menuItemStyle!);
     emitter.on('refreshList', null, (event, eventContext) {
       setState(() {
         items = getAllItems();
       });
+      dataSource.setData(items);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-
+    dataSource.setContext(context);
     return Center(
       child: Column(
         children: <Widget> [
