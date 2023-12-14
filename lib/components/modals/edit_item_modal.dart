@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../database/model/item.model.dart';
 import '../../database/model/tag.model.dart';
 import '../../services/tag_service.dart' show getAllTags;
-import '../../services/item_service.dart' show createItem;
+import '../../services/item_service.dart' show getItemById, editItem;
 
 class EditItemModal extends StatelessWidget {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -18,7 +18,7 @@ class EditItemModal extends StatelessWidget {
     List<Tag> tags = getAllTags();
     TextEditingController tagController = TextEditingController();
 
-    Item model = Item('', ''); // getItem
+    Item? model = getItemById(itemId);
 
     return Container(
       padding: const EdgeInsets.all(50),
@@ -30,7 +30,7 @@ class EditItemModal extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Text(
-                'Creating a new item',
+                'Editing item with id: $itemId',
                 style: themeData.textTheme.headlineLarge?.copyWith(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
@@ -38,6 +38,7 @@ class EditItemModal extends StatelessWidget {
               ),
               const SizedBox(height: 20,),
               TextFormField(
+                initialValue: model!.concept,
                 decoration: const InputDecoration(
                   hintText: 'Enter new item concept',
                   alignLabelWithHint: true,
@@ -54,10 +55,11 @@ class EditItemModal extends StatelessWidget {
                   return null;
                 },
                 onChanged: (String? value) {
-                  model.concept = value!;
+                  model!.concept = value!;
                 },
               ),
               TextFormField(
+                initialValue: model.description,
                 decoration: const InputDecoration(
                   hintText: 'Enter concept description',
                   alignLabelWithHint: true,
@@ -87,6 +89,7 @@ class EditItemModal extends StatelessWidget {
                     onSelected: (Tag? changed) { 
                       model.tag = changed;
                     },
+                    initialSelection: model.tag,
                     controller: tagController,
                     hintText: 'Type to search',
                     dropdownMenuEntries: tags.map<DropdownMenuEntry<Tag>>((Tag tag) {
@@ -96,7 +99,7 @@ class EditItemModal extends StatelessWidget {
                   const SizedBox(width: 20),
                   ElevatedButton(
                     onPressed: () {
-                      model.tag = null;
+                      model!.tag = null;
                       tagController.clear();
                     },
                     style: btnStyle.copyWith(
@@ -112,7 +115,7 @@ class EditItemModal extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
-                      createItem(model);
+                      editItem(model!);
                       onEdit();
                       Navigator.pop(context);
                     }
@@ -120,7 +123,7 @@ class EditItemModal extends StatelessWidget {
                   style: btnStyle.copyWith(
                     backgroundColor: MaterialStatePropertyAll(themeData.colorScheme.primary),
                   ),
-                  child: const Text('Add'),
+                  child: const Text('Update'),
                 ),
               ),
             ],

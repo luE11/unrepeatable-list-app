@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'modals/create_tag_modal.dart';
 import 'modals/delete_tag_modal.dart';
 import 'modals/create_item_modal.dart';
+import 'modals/edit_item_modal.dart';
 
 void showModal(BuildContext context, StatelessWidget modal, [BoxConstraints? constraints]){
   showModalBottomSheet<void>(
@@ -24,4 +25,8 @@ void showDeleteTagModal(BuildContext context, ThemeData? themeData, ButtonStyle?
 
 void showCreateItemModal(BuildContext context, ThemeData themeData, ButtonStyle btnStyle, Function onCreate){
   showModal(context, CreateItemModal(themeData: themeData, btnStyle: btnStyle, onCreate: onCreate));
+}
+
+void showEditItemModal(BuildContext context, ThemeData themeData, ButtonStyle btnStyle, Function onEdit, int itemId){
+  showModal(context, EditItemModal(themeData: themeData, btnStyle: btnStyle, onEdit: onEdit, itemId: itemId,));
 }

@@ -18,4 +18,11 @@ class Tag {
   String toString() {
     return 'Tag{id: $_id, tag: $_tag}';
   }
+
+  @override
+  int get hashCode => id.hashCode;
+
+  @override
+  bool operator==(Object other) => other is Tag && other.id-id==0;
+
 }

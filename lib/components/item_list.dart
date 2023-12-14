@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../database/model/item.model.dart';
 import '../services/item_service.dart';
 import 'package:eventify/eventify.dart';
-import './modal_manager.dart' show showCreateItemModal;
+import './modal_manager.dart' show showEditItemModal;
 
 final EventEmitter emitter = new EventEmitter();
 
@@ -37,16 +37,16 @@ class ItemDataSource extends DataTableSource {
       index: index,
       onSelectChanged: (bool? selected) {
         if(selected!){
-          showCreateItemModal(
+          showEditItemModal(
             context!,
             appTheme!,
             btnStyle!,
             () {
               items = getAllItems();
               notifyListeners();
-            }
+            },
+            current.id!
           );
-          print('selected ${current.concept}');
         }
       },
       cells: <DataCell> [
