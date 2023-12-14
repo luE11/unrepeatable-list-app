@@ -10,7 +10,7 @@ void createItem(Item item){
 
 List<Item> getAllItems(){
   ResultSet rows = manager.fetchAllItems();
-  print(rows.length);
+  if(rows.isEmpty) return [];
   Iterator<Row> rI = rows.iterator;
   return List<Item>.generate(rows.length, 
     (index) {
@@ -21,4 +21,18 @@ List<Item> getAllItems(){
                 : Tag(current['t_id'], current['tag']);
       return Item.full(current['id'], current['concept'], current['description'], tag);
     });
+}
+
+Item? getItemById(int id){
+  ResultSet result = manager.getItemById(id);
+  if(result.isEmpty) return null;
+  Row first = result.first;
+  Tag? tag = first['t_id']==null
+                ? null
+                : Tag(first['t_id'], first['tag']);
+  return Item.full(first['id'], first['concept'], first['description'], tag);
+}
+
+void editItem(Item item){
+  manager.editItem(item);
 }
