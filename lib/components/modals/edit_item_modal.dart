@@ -55,7 +55,7 @@ class EditItemModal extends StatelessWidget {
                   return null;
                 },
                 onChanged: (String? value) {
-                  model!.concept = value!;
+                  model.concept = value!;
                 },
               ),
               TextFormField(
@@ -99,7 +99,7 @@ class EditItemModal extends StatelessWidget {
                   const SizedBox(width: 20),
                   ElevatedButton(
                     onPressed: () {
-                      model!.tag = null;
+                      model.tag = null;
                       tagController.clear();
                     },
                     style: btnStyle.copyWith(
@@ -115,7 +115,7 @@ class EditItemModal extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
-                      editItem(model!);
+                      editItem(model);
                       onEdit();
                       Navigator.pop(context);
                     }
