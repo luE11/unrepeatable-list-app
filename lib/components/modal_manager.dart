@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'modals/create_tag_modal.dart';
 import 'modals/delete_tag_modal.dart';
 import 'modals/create_item_modal.dart';
-import 'modals/edit_item_modal.dart';
+import 'modals/edit_consult_item_modal.dart';
 
-void showModal(BuildContext context, StatelessWidget modal, [BoxConstraints? constraints]){
+void showModal(BuildContext context, Widget modal, [BoxConstraints? constraints]){
   showModalBottomSheet<void>(
     context: context,
     builder: (BuildContext context) {
@@ -27,6 +27,6 @@ void showCreateItemModal(BuildContext context, ThemeData themeData, ButtonStyle 
   showModal(context, CreateItemModal(themeData: themeData, btnStyle: btnStyle, onCreate: onCreate));
 }
 
-void showEditItemModal(BuildContext context, ThemeData themeData, ButtonStyle btnStyle, Function onEdit, int itemId){
-  showModal(context, EditItemModal(themeData: themeData, btnStyle: btnStyle, onEdit: onEdit, itemId: itemId,));
+void showEditConsultItemModal(BuildContext context, ThemeData themeData, ButtonStyle btnStyle, Function onEdit, int itemId){
+  showModal(context, EditConsultItemModal(themeData: themeData, btnStyle: btnStyle, onEdit: onEdit, itemId: itemId,));
 }
