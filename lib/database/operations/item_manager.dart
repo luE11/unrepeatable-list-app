@@ -60,6 +60,6 @@ void editItem(Item item){
     );
     logInfo('Concept "${item.concept}" updated');
   } catch (e) {
-    logError('Could not update concept "${item.concept}". Already exists?');
+    logError('Could not update concept. Does "${item.concept}" item already exist?');
   }
 }

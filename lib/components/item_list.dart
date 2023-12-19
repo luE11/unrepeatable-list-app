@@ -4,7 +4,7 @@ import '../services/item_service.dart';
 import 'package:eventify/eventify.dart';
 import './modal_manager.dart' show showEditConsultItemModal;
 
-final EventEmitter emitter = new EventEmitter();
+final EventEmitter emitter = EventEmitter();
 
 class ItemDataSource extends DataTableSource {
   List<Item> items;

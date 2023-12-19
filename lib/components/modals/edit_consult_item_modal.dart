@@ -140,20 +140,85 @@ class _EditConsultItemModalState extends State<EditConsultItemModal> {
           );
     }else {
       content = 
-        Container(
-          child: Column(
-            children: [ // Format consult content
-              Text('Consulting xd'),
-              ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    isEditing = true;
-                  });
-                },
-                child: Text('edit')
-              )
-            ],
-          )
+        Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  child: Wrap(
+                    children: [
+                      Text(
+                        'Consulting concept: ',
+                        style: widget.themeData.textTheme.headlineLarge?.copyWith(
+                          fontSize: 30
+                        ),
+                      ),
+                      Text(
+                        model!.concept,
+                        style: widget.themeData.textTheme.headlineLarge?.copyWith(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                ElevatedButton(
+                  style: widget.btnStyle.copyWith(
+                    backgroundColor: const MaterialStatePropertyAll(Colors.deepOrange),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      isEditing = true;
+                    });
+                  },
+                  child: const Text('Edit'),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 30,
+              child: Divider(),
+            ),
+            Column(
+              children: [
+                Text(
+                  model.description,
+                  softWrap: true,
+                  textAlign: TextAlign.justify,
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: model.tag!=null
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 10, bottom: 10),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            border: null,
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            color: Colors.lightBlue,
+                          ),
+                          padding: const EdgeInsets.all(7),
+                          child: Text(model.tag!.tag),
+                        ),
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.only(top: 10, bottom: 10),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            border: null,
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            color: Colors.grey,
+                          ),
+                          padding: const EdgeInsets.all(7),
+                          child: const Text('Untagged'),
+                        ),
+                      )
+                )
+              ],
+            ),
+          ],
         );
     }
 
