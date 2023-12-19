@@ -65,6 +65,18 @@ class ItemDataSource extends DataTableSource {
               : ''
           )
         ),
+        DataCell(
+          ElevatedButton(
+            style: btnStyle!.copyWith(
+              backgroundColor: const MaterialStatePropertyAll(Color.fromARGB(255, 255, 147, 139)),
+            ),
+            onPressed: () {
+              print('Delete ${current.id}');
+              //showDeleteModal()
+            },
+            child: const Icon(Icons.delete_outline, color: Colors.red),
+          )
+        ),
       ],
     );
   }
@@ -96,7 +108,7 @@ class ItemList extends StatefulWidget {
 }
 
 class _ItemListState extends State<ItemList> {
-  final List<String> headers = List.from(['Concepts', 'Description', 'Tag']);
+  final List<String> headers = List.from(['Concepts', 'Description', 'Tag', 'Actions']);
   List<Item> items = getAllItems();
   late ItemDataSource dataSource = ItemDataSource(items);
 
@@ -147,6 +159,7 @@ class _ItemListState extends State<ItemList> {
                 borderRadius: const BorderRadius.all(Radius.circular(10)),
               ),
               child: PaginatedDataTable(
+                showCheckboxColumn: false,
                 columns: headers.map<DataColumn>((String header) {
                   return DataColumn(
                     label: Text(
