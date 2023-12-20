@@ -32,6 +32,6 @@ void showEditConsultItemModal(BuildContext context, ThemeData themeData, ButtonS
   showModal(context, EditConsultItemModal(themeData: themeData, btnStyle: btnStyle, onEdit: onEdit, itemId: itemId,));
 }
 
-void showDeleteItemModal(BuildContext context, ThemeData themeData, ButtonStyle btnStyle, int itemId){
-  showModal(context, DeleteItemModal(themeData: themeData, btnStyle: btnStyle, itemId: itemId,));
+void showDeleteItemModal(BuildContext context, ThemeData themeData, ButtonStyle btnStyle, Function onDelete, int itemId){
+  showModal(context, DeleteItemModal(themeData: themeData, btnStyle: btnStyle, onDelete: onDelete, itemId: itemId,));
 }

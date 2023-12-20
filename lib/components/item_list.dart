@@ -71,7 +71,16 @@ class ItemDataSource extends DataTableSource {
               backgroundColor: const MaterialStatePropertyAll(Color.fromARGB(255, 255, 147, 139)),
             ),
             onPressed: () {
-              showDeleteItemModal(context!, appTheme!, btnStyle!, current.id!);
+              showDeleteItemModal(
+                context!,
+                appTheme!,
+                btnStyle!,
+                () {
+                  items = getAllItems();
+                  notifyListeners();
+                },
+                current.id!
+              );
             },
             child: const Icon(Icons.delete_outline, color: Colors.red),
           )

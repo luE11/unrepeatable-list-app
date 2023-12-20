@@ -2,6 +2,7 @@ import 'package:sqlite3/sqlite3.dart';
 
 import '../dbmanage.dart';
 import '../../components/uilogger.dart';
+import './item_manager.dart' show getByTagId;
 
 void createTag(String tag){
   String operation = '''
@@ -21,11 +22,16 @@ ResultSet fetchAllTags(){
 }
 
 void deleteTagById(int id){
-  String operation = 'DELETE FROM tags WHERE id=?';
-  try {
-    executeDatabaseOperation(operation, [id]);
-    logInfo('Tag deleted succesfully');
-  } catch (e) {
-    logError('Could not delete the tag');
+  ResultSet itemsTag = getByTagId(id);
+  if(itemsTag.isEmpty){
+    String operation = 'DELETE FROM tags WHERE id=?';
+    try {
+      executeDatabaseOperation(operation, [id]);
+      logInfo('Tag deleted succesfully');
+    } catch (e) {
+      logError('Could not delete the tag');
+    }
+  }else {
+    logError('Could not delete the tag. There are ${itemsTag.length} items using it');
   }
 }

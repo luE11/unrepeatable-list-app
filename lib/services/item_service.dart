@@ -36,3 +36,7 @@ Item? getItemById(int id){
 void editItem(Item item){
   manager.editItem(item);
 }
+
+void deleteItem(int itemId){
+  manager.deleteItemById(itemId);
+}

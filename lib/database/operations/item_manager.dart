@@ -31,6 +31,16 @@ ResultSet fetchAllItems(){
   return executeQuery(query);
 }
 
+ResultSet getByTagId(int tagId){
+  String query = '''
+    SELECT i.id, concept, description, t.id t_id, t.tag
+      FROM items i, tags t
+      WHERE i.tag_id=t.id
+      AND t.id = ?;
+  ''';
+  return executeQuery(query, [tagId]);
+}
+
 ResultSet getItemById(int itemId){
   String query = '''
     SELECT i.id, concept, description, t.id t_id, t.tag
@@ -61,5 +71,15 @@ void editItem(Item item){
     logInfo('Concept "${item.concept}" updated');
   } catch (e) {
     logError('Could not update concept. Does "${item.concept}" item already exist?');
+  }
+}
+
+void deleteItemById(int id){
+  String operation = 'DELETE FROM items WHERE id=?';
+  try {
+    executeDatabaseOperation(operation, [id]);
+    logInfo('Item deleted succesfully');
+  } catch (e) {
+    logError('Could not delete the item');
   }
 }
