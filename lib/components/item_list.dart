@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../database/model/item.model.dart';
 import '../services/item_service.dart';
 import 'package:eventify/eventify.dart';
-import './modal_manager.dart' show showEditConsultItemModal;
+import './modal_manager.dart' show showEditConsultItemModal, showDeleteItemModal;
 
 final EventEmitter emitter = EventEmitter();
 
@@ -71,8 +71,7 @@ class ItemDataSource extends DataTableSource {
               backgroundColor: const MaterialStatePropertyAll(Color.fromARGB(255, 255, 147, 139)),
             ),
             onPressed: () {
-              print('Delete ${current.id}');
-              //showDeleteModal()
+              showDeleteItemModal(context!, appTheme!, btnStyle!, current.id!);
             },
             child: const Icon(Icons.delete_outline, color: Colors.red),
           )
