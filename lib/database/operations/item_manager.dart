@@ -31,6 +31,17 @@ ResultSet fetchAllItems(){
   return executeQuery(query);
 }
 
+ResultSet fetchItemsFilter(String search){
+  String query = '''
+    SELECT i.id, concept, description, t.id t_id, t.tag
+      FROM items i
+      LEFT JOIN tags t
+      ON i.tag_id=t.id
+      WHERE concept LIKE ?;
+  ''';
+  return executeQuery(query, ['%$search%']);
+}
+
 ResultSet getByTagId(int tagId){
   String query = '''
     SELECT i.id, concept, description, t.id t_id, t.tag

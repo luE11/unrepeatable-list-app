@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:unrepeatable_list_app/components/item_search.dart';
+import 'package:unrepeatable_list_app/components/uilogger.dart';
 import '../database/model/item.model.dart';
 import '../services/item_service.dart';
 import 'package:eventify/eventify.dart';
@@ -148,9 +150,15 @@ class _ItemListState extends State<ItemList> {
                     '${items.length} Items recorded',
                     textAlign: TextAlign.left,
                     style: widget.appTheme!.textTheme.headlineLarge?.copyWith(
-                      fontSize: 28,
+                      fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
+                  ),
+                  ItemSearch(
+                    widget.appTheme!,
+                    widget.btnStyle!,
+                    widget.menuItemStyle!,
+                    _updateSearch,
                   ),
                 ],
               ),
@@ -185,6 +193,13 @@ class _ItemListState extends State<ItemList> {
         ]
       ),
     );
+  }
+
+  _updateSearch(String search){
+    setState(() {
+      items = getFilterItems(search);
+    });
+    dataSource.setData(items);
   }
   
 }
