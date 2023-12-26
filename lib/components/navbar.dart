@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'uilogger.dart';
 import 'modal_manager.dart';
+import '../database/sqlite_file_manager.dart' show restoreSqliteData;
 
 class AppNavBar extends StatelessWidget implements PreferredSizeWidget {
   const AppNavBar(this.appTheme, this.appTitle, this.btnStyle, this.menuItemStyle, this.updateItemsList, {super.key});
@@ -37,7 +38,6 @@ class AppNavBar extends StatelessWidget implements PreferredSizeWidget {
             child: ElevatedButton(
               onPressed: () {
                 showCreateTagModal(context, appTheme, btnStyle);
-                //createTag('pruebita');
               },
               style: btnStyle?.copyWith(
                 backgroundColor: const MaterialStatePropertyAll(Colors.lightBlue),
@@ -95,7 +95,9 @@ class AppNavBar extends StatelessWidget implements PreferredSizeWidget {
                   ),
                   MenuItemButton(
                     onPressed: () {
-                      logInfo("restore data");
+                      restoreSqliteData();
+                      updateItemsList();
+                      logInfo("Data restore");
                     },
                     style: menuItemStyle?.copyWith(
                       backgroundColor: const MaterialStatePropertyAll(Color.fromARGB(255, 247, 156, 150)),
