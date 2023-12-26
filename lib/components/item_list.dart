@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:unrepeatable_list_app/components/item_search.dart';
-import 'package:unrepeatable_list_app/components/uilogger.dart';
 import '../database/model/item.model.dart';
 import '../services/item_service.dart';
 import 'package:eventify/eventify.dart';
