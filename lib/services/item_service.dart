@@ -10,6 +10,15 @@ void createItem(Item item){
 
 List<Item> getAllItems(){
   ResultSet rows = manager.fetchAllItems();
+  return _formatItems(rows);
+}
+
+List<Item> getFilterItems(String search){
+  ResultSet rows = manager.fetchItemsFilter(search);
+  return _formatItems(rows);
+}
+
+List<Item> _formatItems(ResultSet rows){
   if(rows.isEmpty) return [];
   Iterator<Row> rI = rows.iterator;
   return List<Item>.generate(rows.length, 
