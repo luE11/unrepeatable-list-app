@@ -1,5 +1,5 @@
 class Tag {
-  int _id;
+  final int _id;
   final String _tag;
 
   Tag(this._id, this._tag);

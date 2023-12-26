@@ -44,6 +44,7 @@ dependencies:
   path: ^1.8.3
   sqlite3_flutter_libs: ^0.5.18
   eventify: ^1.0.1
+  url_launcher: ^6.2.2
 
 dev_dependencies:
   flutter_test:
