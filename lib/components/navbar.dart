@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'uilogger.dart';
 import 'modal_manager.dart';
 import '../database/sqlite_file_manager.dart' show restoreSqliteData;
-import 'dialog_manager.dart' as dialogManager;
+import 'dialog_manager.dart' as dialog_manager;
 
 class AppNavBar extends StatelessWidget implements PreferredSizeWidget {
   const AppNavBar(this.appTheme, this.appTitle, this.btnStyle, this.menuItemStyle, this.updateItemsList, {super.key});
@@ -89,7 +89,7 @@ class AppNavBar extends StatelessWidget implements PreferredSizeWidget {
                   const Divider(height: 1,),
                   MenuItemButton(
                     onPressed: () {
-                      dialogManager.showAboutDialog(context);
+                      dialog_manager.showAboutDialog(context);
                     },
                     style: menuItemStyle,
                     child: const Text("About")
