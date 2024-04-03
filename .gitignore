@@ -27,4 +27,4 @@ doc/api/
 .flutter-plugins-dependencies
 
 # ignore sqlite.db file
-assets/sqlite.db
+sqlite.db

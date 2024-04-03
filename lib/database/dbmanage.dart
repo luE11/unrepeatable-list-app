@@ -4,14 +4,15 @@ import 'package:sqlite3/sqlite3.dart';
 import 'package:path/path.dart';
 import '../utils/fileutils.dart' as fu;
 
-final String dbPath = join('assets', 'sqlite.db');
+const String dbPath = 'sqlite.db';
+final String assetDb = join('assets', 'empty.db');
 
 void initSqlite(){
   if(!fu.checkFileExists(dbPath)){
-    fu.copyFile(join('assets', 'empty.db'), dbPath);
+    fu.copyFile(assetDb, dbPath);
     log("db copied");
   }
-  final db = sqlite3.open( join('assets', 'sqlite.db'));
+  final db = sqlite3.open( dbPath);
   try {
     db.execute('''
       CREATE TABLE tags (
@@ -33,13 +34,13 @@ void initSqlite(){
 }
 
 void executeDatabaseOperation(String operation, [List<Object?> parameters = const []]){
-  final db = sqlite3.open( join('assets', 'sqlite.db'));
+  final db = sqlite3.open( dbPath);
   db.execute(operation, parameters); 
   db.dispose();
 }
 
 ResultSet executeQuery(String query, [List<Object?> parameters = const []]){
-  final db = sqlite3.open( join('assets', 'sqlite.db'));
+  final db = sqlite3.open( dbPath);
   ResultSet rows = db.select(query, parameters);
   db.dispose();
   return rows;
